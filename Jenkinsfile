@@ -4,6 +4,16 @@ pipeline {
  stages {
   stage('Build'){ steps{ sh 'mvn clean package -DskipTests' } }
   stage('Test'){ steps{ sh 'mvn test' } }
+  stage('SonarQube Analysis') {
+    environment {
+        scannerHome = tool 'sonar-scanner'
+    }
+    steps {
+        withSonarQubeEnv('sonar-server') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+    }
+}
   stage('Docker'){ steps{ script{ docker.build("sample-app:${BUILD_NUMBER}") } } }
  }
 }

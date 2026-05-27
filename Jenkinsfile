@@ -6,7 +6,7 @@ pipeline {
      ECR_REPO="703686967391.dkr.ecr.us-east-1.amazonaws.com/sample-app"
  stages {
   
-  stage('Checkout') { steps { git 'https://github.com/your-repo.git' }}
+  stage('Checkout') { steps { git 'https://github.com/ramsaisuggula/devops-project-final.git' }}
   stage('Build'){ steps{ sh 'mvn clean package -DskipTests' } }
   stage('Test'){ steps{ sh 'mvn test' } }
   stage('SonarQube Analysis') {

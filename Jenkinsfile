@@ -14,6 +14,18 @@ pipeline {
         }
     }
 }
+  stage("Quality Gate") {
+    steps {
+        script {
+            timeout(time: 1, unit: 'HOURS') {
+                def qg = waitForQualityGate()
+                if (qg.status != 'OK') {
+                    error "Quality Gate Failed"
+                }
+            }
+        }
+    }
+}
   stage('Docker'){ steps{ script{ docker.build("sample-app:${BUILD_NUMBER}") } } }
  }
 }
